@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     public float speed = 5f;
 
     public LayerMask whatIsGround;
-
+    private bool falling = false;
     public Transform groundPoint;
     // Start is called before the first frame update
     void Start()
@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
         _animator.SetFloat("Speed", Mathf.Abs(move));
         SetDirection(move);
         SetMovement(move);
+        Falling();
     }
  
     void SetMovement(float move)
@@ -61,4 +62,21 @@ public class PlayerController : MonoBehaviour
         Collider2D col = Physics2D.OverlapCircle(groundPoint.position, 0.1f, whatIsGround);
         return col != null;
     }
+    private void Falling()
+    {
+        if (_rigidbody.velocity.y < 0 && !IsGrounded())
+        {
+            falling = true;
+            _animator.SetBool("Falling", true);
+            
+        }
+        else if (falling)
+        {
+            falling = false;
+            _animator.SetBool("Falling", false);
+            
+        }
+        
+    }
+
 }
