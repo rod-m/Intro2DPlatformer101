@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Damage
   - Health
+  - Food
   layers:
   - Default
   - TransparentFX

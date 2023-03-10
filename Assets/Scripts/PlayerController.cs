@@ -74,6 +74,7 @@ public class PlayerController : MonoBehaviour
         {
             falling = false;
             _animator.SetBool("Falling", false);
+            
         }
     }
 

@@ -9,12 +9,22 @@ public class GameManager : MonoBehaviour
     public int score = 0;
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI scoreText;
-    private GameObject _player;
+    private GameObject player;
     void Start()
     {
-        AddHealth(-10);
-        AddScore(100);
-        _player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindWithTag("Player");
+        AddHealth(0);
+        AddScore(0);
+    }
+
+    private void PlayerHealthCheck()
+    {
+        if (health <= 0)
+        {
+            player.SendMessage("ReSpawn");
+            health = 100;
+            AddHealth(0);
+        }
     }
     public void AddHealth(int h)
     {
@@ -22,19 +32,10 @@ public class GameManager : MonoBehaviour
         healthText.text = $"Health {health}";
         PlayerHealthCheck();
     }
-
-    private void PlayerHealthCheck()
-    {
-        if (health <= 0)
-        {
-            _player.SendMessage("ReSpawn");
-            health = 100;
-            AddHealth(0);
-        }
-    }
     public void AddScore(int h)
     {
         score += h;
         scoreText.text = $"Score {score}";
     }
+   
 }

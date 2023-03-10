@@ -14,10 +14,15 @@ public class WillDamage : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-      // Debug.Log($"damage stay to {collision.collider.tag}");
-      if (collision.collider.CompareTag("Player"))
-      {
-          _gameManager.AddHealth(-damage);
-      }
+        //Debug.Log(($"damage to {collision.collider.tag}"));
+        if (collision.collider.CompareTag("Player"))
+        {
+            _gameManager.AddHealth(-damage);
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+      
     }
 }
