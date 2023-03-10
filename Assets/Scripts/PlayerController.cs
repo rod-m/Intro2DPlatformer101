@@ -5,24 +5,21 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D _rigidbody;
- 
     private Animator _animator;
- 
     private Vector2 _scale;
- 
     private int _direction = 1;
     public float jumpForce = 10f;
     public float speed = 5f;
-
     public LayerMask whatIsGround;
     private bool falling = false;
     public Transform groundPoint;
-    // Start is called before the first frame update
+    private Vector3 _startPosition;
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _scale = transform.localScale;
+        _startPosition = transform.position;
     }
  
     // Update is called once per frame
@@ -38,14 +35,18 @@ public class PlayerController : MonoBehaviour
  
     void SetMovement(float move)
     {
-        Vector2 newVelocity = _rigidbody.velocity;
-        newVelocity.x = speed * move;
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+        if (IsGrounded())
         {
-            newVelocity.y = jumpForce;
-            _animator.SetTrigger("Jump");
+            Vector2 newVelocity = _rigidbody.velocity;
+            newVelocity.x = speed * move;
+            if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+            {
+                newVelocity.y = jumpForce;
+                _animator.SetTrigger("Jump");
+            }
+            _rigidbody.velocity = newVelocity;
         }
-        _rigidbody.velocity = newVelocity;
+      
     }
     void SetDirection(float move)
     {
@@ -68,15 +69,17 @@ public class PlayerController : MonoBehaviour
         {
             falling = true;
             _animator.SetBool("Falling", true);
-            
         }
         else if (falling)
         {
             falling = false;
             _animator.SetBool("Falling", false);
-            
         }
-        
+    }
+
+    public void ReSpawn()
+    {
+        transform.position = _startPosition;
     }
 
 }
